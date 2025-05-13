@@ -42,6 +42,7 @@ _OUTPUT_DIR = flags.DEFINE_string(
 
 
 def main(argv):
+  print(os.getcwd())
   if len(argv) > 1:
     raise app.UsageError("Too many command-line arguments.")
 
