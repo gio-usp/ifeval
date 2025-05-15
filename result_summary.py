@@ -4,6 +4,8 @@ from uuid import uuid4
 filenames = os.listdir("./instruction_following_eval/data/output")
 out = []
 for filename in filenames:
+    if filename.startswith("result_summary"):
+        continue
     with open(f"./instruction_following_eval/data/output/{filename}", "r") as f: 
         acc = 0
         total = 0
@@ -22,11 +24,21 @@ for filename in filenames:
                 total_constraints[constraint] += 1
                 if fil[i]:
                     acc_constraints[constraint] += 1
-        acc = acc / total
-        acc_constraints = {k: v / total_constraints[k] for k, v in acc_constraints.items()}
+        acc = (acc / total) if total else 0
+        for k in acc_constraints:
+            acc_constraints[k] = acc_constraints[k] / total_constraints[k] if total_constraints[k] else 0
+        out.append({
+            "filename": filename,
+            "acc": acc,
+            "acc_constraints": acc_constraints,
+            "total": total,
+            "total_constraints": total_constraints
+        })
+print(out)
 with open(f"./instruction_following_eval/data/output/result_summary-{str(uuid4())[-8:]}.jsonl", "w") as f:
     for o in out:
-        f.write(json.dumps(o) + "\n")
+        f.write(json.dumps(o))
+        f.write("\n")
 
 
         
