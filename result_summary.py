@@ -1,10 +1,10 @@
 import os
 import json
 from uuid import uuid4
-filenames = os.listdir("./instruction_following_eval/data/output")
+filenames = os.listdir("./instruction_following_eval/data/output/")
 out = []
 for filename in filenames:
-    with open(f"./instruction_following_eval/data/output/{filename}", "r") as f: 
+    with open(f"{OUTPUT_DIR}{filename}", "r") as f: 
         acc = 0
         total = 0
         acc_constraints = dict()  
@@ -24,7 +24,7 @@ for filename in filenames:
                     acc_constraints[constraint] += 1
         acc = acc / total
         acc_constraints = {k: v / total_constraints[k] for k, v in acc_constraints.items()}
-with open(f"./instruction_following_eval/data/output/result_summary-{str(uuid4())[-8:]}.jsonl", "w") as f:
+with open(f"{OUTPUT_DIR}result_summary-{str(uuid4())[-8:]}.jsonl", "w") as f:
     for o in out:
         f.write(json.dumps(o) + "\n")
 
