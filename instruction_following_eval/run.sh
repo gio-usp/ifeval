@@ -16,7 +16,7 @@
 
 python3 -m instruction_following_eval.evaluation_main \
   --input_data=instruction_following_eval/data/input_data.jsonl \
-  --input_response_data=instruction_following_eval/data/input-response-gpt-4o-mini-batch_68224476eae081908d8c545546d771da.jsonl \
+  --input_response_data=instruction_following_eval/data/output.jsonl \
   --output_dir=instruction_following_eval/data/output/
 
 exit 0
